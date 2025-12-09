@@ -1,4 +1,4 @@
-package com.mycompany.app.model.dao;
+package com.mycompany.app.model.entities;
 
 public enum Role {
     OWNER,

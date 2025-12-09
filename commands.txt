@@ -1,0 +1,6 @@
+//create quarkus web project
+mvn io.quarkus.platform:quarkus-maven-plugin:3.30.1:create -DprojectGroupId=com.mycompany.app -DprojectArtifactId=fryzjer -Dextensions=rest -DnoCode
+
+
+//launch jar with overridden property value - i.e. quarkus.http.port
+java -jar -Dquarkus.http.port=8090 fryzjer-dev.jar

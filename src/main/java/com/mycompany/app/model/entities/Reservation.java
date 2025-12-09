@@ -1,10 +1,10 @@
-package com.mycompany.app.model.dao;
+package com.mycompany.app.model.entities;
 
 import java.sql.Time;
 import java.sql.Date;
 
 public class Reservation {
-    private int id;
+    private Long id;
     private int location_id;
     private Date date;
     private Time time;

@@ -1,7 +1,7 @@
-package com.mycompany.app.model.dao;
+package com.mycompany.app.model.entities;
 
 public class Location {
-    private int id;
+    private Long id;
     private int slots;
     private int owner_id;
 }
