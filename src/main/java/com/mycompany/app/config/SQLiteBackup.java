@@ -9,10 +9,7 @@ import jakarta.inject.Inject;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.logging.Logger;
 
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -20,6 +17,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @ApplicationScoped
 public class SQLiteBackup {
     private static final Logger LOGGER = Logger.getLogger(SQLiteBackup.class.getName());
+    private final AtomicBoolean executing = new AtomicBoolean(false);
+    final boolean enabled;
 
     @ConfigProperty(name = "quarkus.datasource.jdbc.url")
     String jdbcUrl;
@@ -27,17 +26,20 @@ public class SQLiteBackup {
     @Inject
     AgroalDataSource dataSource;
 
-    private final AtomicBoolean executing = new AtomicBoolean(false);
+    @Inject
+    public SQLiteBackup(@ConfigProperty(name = "db.backup.enabled") boolean enabled) {
+        this.enabled = enabled;
+    }
 
     // Execute a backup every 10 seconds
-    @Scheduled(delay=1, delayUnit=TimeUnit.SECONDS, every="${db.backup.period:10s}")
+    @Scheduled(delay=1, delayUnit=TimeUnit.SECONDS, every="${db.backup.period}")
     void scheduled() {
-        backup();
+        if(enabled){backup();}
     }
 
     // Execute a backup during shutdown
     public void onShutdown(@Observes ShutdownEvent event) {
-        backup();
+        if(enabled){backup();}
     }
 
     void backup() {

@@ -9,4 +9,5 @@ module fryzjer {
     requires jakarta.persistence;
     requires com.fasterxml.jackson.databind;
     requires jakarta.transaction;
+    requires jakarta.el;
 }
