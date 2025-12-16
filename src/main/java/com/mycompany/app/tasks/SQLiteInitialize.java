@@ -1,0 +1,113 @@
+package com.mycompany.app.tasks;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mycompany.app.model.dao.LocationRepository;
+import com.mycompany.app.model.dao.ReservationRepository;
+import com.mycompany.app.model.dao.ServiceRepository;
+import com.mycompany.app.model.dao.UserRepository;
+import com.mycompany.app.model.entities.*;
+import io.agroal.api.AgroalDataSource;
+import io.quarkus.hibernate.orm.panache.PanacheRepository;
+import io.quarkus.runtime.StartupEvent;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Observes;
+import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.jboss.logging.Logger;
+
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.Time;
+
+@ApplicationScoped
+public class SQLiteInitialize {
+    private static final Logger LOGGER = Logger.getLogger(SQLiteInitialize.class.getName());
+
+    @Inject
+    EntityManager entityManager;
+
+    @Inject
+    ServiceRepository serviceRepository;
+
+    @Inject
+    ReservationRepository reservationRepository;
+
+    @Inject
+    LocationRepository locationRepository;
+
+    @Inject
+    UserRepository userRepository;
+
+    void onStart(@Observes StartupEvent ev) {
+        if(isDbEmpty()) {
+            LOGGER.info("-------------Initializing database...---------------");
+            initDb();
+            LOGGER.info("-------------Database initialized. ---------------");
+        }
+        readTable(locationRepository);
+        readTable(serviceRepository);
+        readTable(userRepository);
+        readTable(reservationRepository);
+    }
+
+    @Transactional
+    public void initDb() {
+        Service service = new Service("Golenie", new BigDecimal("30"));
+        Service service2 = new Service("Strzyżenie", new BigDecimal("50"));
+        User admin = new User("Admin", Role.OWNER, null);
+        Location location = new Location("Tartak", 5, admin);
+        Location location2 = new Location("Sieczkarnia",3, admin);
+        User cashier = new User("Cashier1", Role.CASHIER, location);
+        User employee = new User("Employee1", Role.EMPLOYEE, location);
+        User client = new User("Client1", Role.CLIENT, location);
+        Reservation reservation = new Reservation(Date.valueOf("2025-12-21"), Time.valueOf("12:00:00"), location, service, employee, client);
+        Reservation reservation2 = new Reservation(Date.valueOf("2026-01-15"), Time.valueOf("11:30:00"), location, service2, employee, client);
+        entityManager.persist(service);
+        entityManager.persist(service2);
+        entityManager.persist(admin);
+        entityManager.persist(location);
+        entityManager.persist(location2);
+        entityManager.persist(cashier);
+        entityManager.persist(employee);
+        entityManager.persist(client);
+        entityManager.persist(reservation);
+        entityManager.persist(reservation2);
+    }
+
+    @Transactional
+    public void readTable(PanacheRepository repository) {
+        LOGGER.info("-------------Reading table...--------------");
+        repository.findAll().stream().forEach(l -> writeAsString(l));
+    }
+
+    private boolean isDbEmpty() {
+        return isUsersEmpty() && isServicesEmpty() && isReservationsEmpty() && isLocationsEmpty();
+    }
+
+    private boolean isUsersEmpty() {
+        return 0 == userRepository.count();
+    }
+
+    private boolean isServicesEmpty() {
+        return 0 == serviceRepository.count();
+    }
+
+    private boolean isReservationsEmpty() {
+        return 0 == reservationRepository.count();
+    }
+
+    private boolean isLocationsEmpty() {
+        return 0 == locationRepository.count();
+    }
+
+    static void writeAsString(Object o) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            System.out.println(mapper.writeValueAsString(o));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+}

@@ -19,4 +19,8 @@ public class Service {
     private Long id;
     private String name;
     private BigDecimal price;
+
+    public Service(String name, BigDecimal price) {
+        this(null, name, price);
+    }
 }

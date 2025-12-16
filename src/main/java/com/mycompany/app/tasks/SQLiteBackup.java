@@ -1,4 +1,4 @@
-package com.mycompany.app.config;
+package com.mycompany.app.tasks;
 
 import io.agroal.api.AgroalDataSource;
 import io.quarkus.runtime.ShutdownEvent;

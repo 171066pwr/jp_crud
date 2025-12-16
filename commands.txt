@@ -6,4 +6,7 @@ mvn io.quarkus.platform:quarkus-maven-plugin:3.30.1:create -DprojectGroupId=com.
 java -jar -Dquarkus.http.port=8090 fryzjer-dev.jar
 
 //launch second instance with disabled db backup
-java -jar -Dquarkus.http.port=8090 -Ddb.backup.enabled=true -Ddb.backup.period=5s target\quarkus-app\quarkus-run.jar
+java -jar -Dquarkus.http.port=8090 -Ddb.backup.enabled=false target\quarkus-app\quarkus-run.jar
+
+
+java -jar -Ddb.backup.period=60s target\quarkus-app\quarkus-run.jar
