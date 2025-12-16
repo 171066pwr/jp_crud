@@ -6,15 +6,12 @@ import com.mycompany.app.model.dao.ReservationRepository;
 import com.mycompany.app.model.dao.ServiceRepository;
 import com.mycompany.app.model.dao.UserRepository;
 import com.mycompany.app.model.entities.*;
-import io.agroal.api.AgroalDataSource;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import io.quarkus.runtime.StartupEvent;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
-import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.logging.Logger;
 
 import java.math.BigDecimal;
@@ -24,9 +21,6 @@ import java.sql.Time;
 @ApplicationScoped
 public class SQLiteInitialize {
     private static final Logger LOGGER = Logger.getLogger(SQLiteInitialize.class.getName());
-
-    @Inject
-    EntityManager entityManager;
 
     @Inject
     ServiceRepository serviceRepository;
@@ -64,16 +58,16 @@ public class SQLiteInitialize {
         User client = new User("Client1", Role.CLIENT, location);
         Reservation reservation = new Reservation(Date.valueOf("2025-12-21"), Time.valueOf("12:00:00"), location, service, employee, client);
         Reservation reservation2 = new Reservation(Date.valueOf("2026-01-15"), Time.valueOf("11:30:00"), location, service2, employee, client);
-        entityManager.persist(service);
-        entityManager.persist(service2);
-        entityManager.persist(admin);
-        entityManager.persist(location);
-        entityManager.persist(location2);
-        entityManager.persist(cashier);
-        entityManager.persist(employee);
-        entityManager.persist(client);
-        entityManager.persist(reservation);
-        entityManager.persist(reservation2);
+        serviceRepository.persist(service);
+        serviceRepository.persist(service2);
+        userRepository.persist(admin);
+        locationRepository.persist(location);
+        locationRepository.persist(location2);
+        userRepository.persist(cashier);
+        userRepository.persist(employee);
+        userRepository.persist(client);
+        reservationRepository.persist(reservation);
+        reservationRepository.persist(reservation2);
     }
 
     @Transactional
