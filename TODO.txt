@@ -1,0 +1,24 @@
+Owner:
+    -INSERT, UPDATE service
+    -SELECT * FROM reservation
+    #-SELECT SUM(price) FROM
+        (SELECT * FROM reservation
+            WHERE date BETWEEN X AND Y
+            AND billed = <parameter>)
+
+Cashier:
+    #-SELECT, UPDATE (billed = true/false) reservation
+        WHERE location = cashier.location
+
+Employee:
+    #-SELECT reservation
+        WHERE employee = employee
+
+Client:
+    #-SELECT * FROM reservation (anonimized DTO)
+         WHERE date >= now
+    #-SELECT FROM reservation
+        WHERE client = client
+    -UPDATE reservation
+        WHERE client = client
+        AND date >= now

@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Service {
+public class Service implements Copiable<Service> {
     @Id
     @GeneratedValue
     private Long id;
@@ -24,5 +24,11 @@ public class Service {
 
     public Service(String name, BigDecimal price) {
         this(null, name, price);
+    }
+
+    @Override
+    public void copyFrom(Service entity) {
+        this.name = entity.name;
+        this.price = entity.price;
     }
 }

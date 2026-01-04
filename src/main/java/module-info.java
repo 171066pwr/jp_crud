@@ -10,4 +10,5 @@ module fryzjer {
     requires com.fasterxml.jackson.databind;
     requires jakarta.transaction;
     requires jakarta.el;
+    requires jakarta.ws.rs;
 }

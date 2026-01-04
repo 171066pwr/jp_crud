@@ -57,6 +57,7 @@ public class SQLiteInitialize {
         User employee = new User("Employee1", Role.EMPLOYEE, location);
         User client = new User("Client1", Role.CLIENT, location);
         Reservation reservation = new Reservation(Date.valueOf("2025-12-21"), Time.valueOf("12:00:00"), location, service, employee, client);
+        reservation.setBilled(true);
         Reservation reservation2 = new Reservation(Date.valueOf("2026-01-15"), Time.valueOf("11:30:00"), location, service2, employee, client);
         serviceRepository.persist(service);
         serviceRepository.persist(service2);

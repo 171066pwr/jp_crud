@@ -14,10 +14,11 @@ import java.sql.Time;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Reservation {
+public class Reservation implements Copiable<Reservation> {
     @Id
     @GeneratedValue
     private Long id;
+    private Boolean billed;
     private Date date;
     private Time time;
     @ManyToOne(fetch = FetchType.EAGER)
@@ -34,6 +35,17 @@ public class Reservation {
     private User client;
 
     public Reservation(Date date, Time time, Location location, Service service, User user, User client) {
-        this(null, date, time, location, service, user, client);
+        this(null, false, date, time, location, service, user, client);
+    }
+
+    @Override
+    public void copyFrom(Reservation reservation) {
+        this.billed = reservation.billed;
+        this.date = reservation.date;
+        this.time = reservation.time;
+        this.location = reservation.location;
+        this.service = reservation.service;
+        this.employee = reservation.employee;
+        this.client = reservation.client;
     }
 }
