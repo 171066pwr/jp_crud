@@ -56,9 +56,12 @@ public class SQLiteInitialize {
         User cashier = new User("Cashier1", Role.CASHIER, location);
         User employee = new User("Employee1", Role.EMPLOYEE, location);
         User client = new User("Client1", Role.CLIENT, location);
+        User client2 = new User("Client2", Role.CLIENT, location);
         Reservation reservation = new Reservation(Date.valueOf("2025-12-21"), Time.valueOf("12:00:00"), location, service, employee, client);
         reservation.setBilled(true);
         Reservation reservation2 = new Reservation(Date.valueOf("2026-01-15"), Time.valueOf("11:30:00"), location, service2, employee, client);
+        Reservation reservation3 = new Reservation(Date.valueOf("2026-02-10"), Time.valueOf("10:20:00"), location, service2, employee, client2);
+        reservation3.setBilled(true);
         serviceRepository.persist(service);
         serviceRepository.persist(service2);
         userRepository.persist(admin);
@@ -67,8 +70,10 @@ public class SQLiteInitialize {
         userRepository.persist(cashier);
         userRepository.persist(employee);
         userRepository.persist(client);
+        userRepository.persist(client2);
         reservationRepository.persist(reservation);
         reservationRepository.persist(reservation2);
+        reservationRepository.persist(reservation3);
     }
 
     @Transactional
