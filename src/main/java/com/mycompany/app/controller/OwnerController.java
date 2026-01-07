@@ -3,6 +3,9 @@ package com.mycompany.app.controller;
 import com.mycompany.app.model.dao.ReservationRepository;
 import com.mycompany.app.model.dao.ServiceRepository;
 import com.mycompany.app.model.entities.Service;
+import io.quarkus.qute.Location;
+import io.quarkus.qute.Template;
+import io.quarkus.qute.TemplateInstance;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -10,10 +13,11 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 
 @Path("/owner")
-@Produces(MediaType.APPLICATION_JSON)
+@Produces(MediaType.TEXT_HTML)
 @Consumes(MediaType.APPLICATION_JSON)
 @ApplicationScoped
 public class OwnerController {
@@ -23,22 +27,32 @@ public class OwnerController {
     @Inject
     ServiceRepository serviceRepository;
 
+    @Location("pub/base.html")
+    Template baseTemplate;
+
+    @Location("services.html")
+    Template servicesTemplate;
+
     @GET
     @Path("/services")
-    public Response getServices() {
-        return Response.ok(serviceRepository.findAll().list()).build();
+    public TemplateInstance getServices() {
+        return baseTemplate.data("title", "Services", "pageContent", servicesTemplate.data("services", serviceRepository.findAll().list()));
     }
 
     @POST
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Transactional
-    public Response createService(Service service) {
+    @Path("/services/create")
+    public Response createService(@FormParam("name") String name, @FormParam("price") String price) {
+        var service = new Service(name, new BigDecimal(price));
         serviceRepository.persist(service);
         return Response.noContent().build();
     }
 
     @PUT
-    @Path("/services/{id}")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Transactional
+    @Path("/services/{id}/update")
     public Response updateService(@PathParam("id") Long id, Service service) {
         Service entity = serviceRepository.findById(id);
         if(entity == null) {

@@ -1,0 +1,14 @@
+<h1>Services</h1>
+
+<table>
+	<tr><th>ID</th><th>NAZWA</th><th>CENA</th></tr>
+	{#for service in services}
+		<tr>
+			<th>{service.id}</th>
+			<th>{service.name}</th>
+			<th>{service.price}</th>
+			<th><a href="/owner/services/{service.id}">EDYTUJ</a></th>
+		</tr>
+	{/for}
+	<tr><th colspan="4"><a href="/owner/services/create-form">DODAJ</a></th></tr>
+</table>

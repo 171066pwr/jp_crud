@@ -50,13 +50,13 @@ public class SQLiteInitialize {
     public void initDb() {
         Service service = new Service("Golenie", new BigDecimal("30"));
         Service service2 = new Service("Strzyżenie", new BigDecimal("50"));
-        User admin = new User("Admin", Role.OWNER, null);
+        User admin = new User("Admin", "admin", Role.OWNER, null);
         Location location = new Location("Tartak", 5, admin);
         Location location2 = new Location("Sieczkarnia",3, admin);
-        User cashier = new User("Cashier1", Role.CASHIER, location);
-        User employee = new User("Employee1", Role.EMPLOYEE, location);
-        User client = new User("Client1", Role.CLIENT, location);
-        User client2 = new User("Client2", Role.CLIENT, location);
+        User cashier = new User("Cashier1", "cashier1", Role.CASHIER, location);
+        User employee = new User("Employee1", "employee1", Role.EMPLOYEE, location);
+        User client = new User("Client1", "client1", Role.CLIENT, location);
+        User client2 = new User("Client2", "client2", Role.CLIENT, location);
         Reservation reservation = new Reservation(Date.valueOf("2025-12-21"), Time.valueOf("12:00:00"), location, service, employee, client);
         reservation.setBilled(true);
         Reservation reservation2 = new Reservation(Date.valueOf("2026-01-15"), Time.valueOf("11:30:00"), location, service2, employee, client);

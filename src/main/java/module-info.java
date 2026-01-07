@@ -11,4 +11,7 @@ module fryzjer {
     requires jakarta.transaction;
     requires jakarta.el;
     requires jakarta.ws.rs;
+    requires quarkus.elytron.security.common;
+    requires quarkus.security.jpa.common;
+    requires qute.core;
 }

@@ -1,0 +1,34 @@
+meta {
+  name: Login urlencoded
+  type: http
+  seq: 7
+}
+
+post {
+  url: http://localhost:8080/login/j_security_check
+  body: formUrlEncoded
+  auth: inherit
+}
+
+body:json {
+  {
+    "j_username": "Admin",
+    "j_password": "admin"
+  }
+}
+
+body:form-urlencoded {
+  j_username: Admin
+  j_password: admin
+}
+
+body:multipart-form {
+  j_username: Admin @contentType(application/json)
+  j_password: admin @contentType(application/json)
+  j_validate: True @contentType(application/json)
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
