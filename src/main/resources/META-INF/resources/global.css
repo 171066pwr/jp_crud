@@ -15,3 +15,26 @@ table, th, tr, td {
 th {
     font-weight: bold;
 }
+form {
+    padding: 25px;
+    font-size: 24px;
+    text-align: center;
+    border: 5px solid grey;
+    outline: 5px solid black;
+}
+label {
+    padding-left: 25px;
+}
+button {
+    padding: 5px;
+    font-size: 20px;
+    text-align: center;
+}
+input {
+    padding: 5px;
+    font-size: 20px;
+}
+
+.failed {
+    border: 5px solid red;
+}

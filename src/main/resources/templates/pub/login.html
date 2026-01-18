@@ -1,22 +1,13 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<style>
-			body {
-				width:80%;
-				margin-left:auto;
-				margin-right:auto;
-				text-align: center;
-			}
-		</style>
-	</head>
-	<body>
-		<form action="/j_security_check" method="post">
-			<label>Username</label>
-			<input type="text" placeholder="Username" name="j_username" required  size="10" maxlength="10">
-			<label>Password</label>
-			<input type="password" placeholder="Password" name="j_password" required size="10" maxlength="10">
-			<button type="submit">Login</button>
-		</form>
-	</body>
-</html>
+{#include pub/base.html}
+	{#title}Login{/title}
+{/include}
+<body>
+	<form action="/j_security_check" method="post">
+		<label>Username</label>
+		<input type="text" placeholder="Username" name="j_username" required  size="10" maxlength="10">
+		<label>Password</label>
+		<input type="password" placeholder="Password" name="j_password" required size="10" maxlength="10">
+		<button type="submit">Login</button>
+		<br><br>
+	</form>
+</body>

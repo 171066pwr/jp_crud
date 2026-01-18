@@ -1,14 +1,21 @@
-<h1>Services</h1>
+{#include owner.html}
+	{#title}Services{/title}
+	{#contents}
+		<table>
+			<tr><td colspan="4">
+					{#include services-form.html}
+					{/include}
+				</td></tr>
+			<tr><th>ID</th><th>NAZWA</th><th>CENA</th></tr>
+			{#for service in services}
+				<tr>
+					<td>{service.id}</td>
+					<td>{service.name}</td>
+					<td>{service.price}</td>
+					<td><a href="/owner/services/{service.id}">EDYTUJ</a></td>
+				</tr>
+			{/for}
+		</table>
+	{/contents}
 
-<table>
-	<tr><th>ID</th><th>NAZWA</th><th>CENA</th></tr>
-	{#for service in services}
-		<tr>
-			<th>{service.id}</th>
-			<th>{service.name}</th>
-			<th>{service.price}</th>
-			<th><a href="/owner/services/{service.id}">EDYTUJ</a></th>
-		</tr>
-	{/for}
-	<tr><th colspan="4"><a href="/owner/services/create-form">DODAJ</a></th></tr>
-</table>
+{/include}

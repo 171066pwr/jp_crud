@@ -27,20 +27,27 @@ public class OwnerController {
     @Inject
     ServiceRepository serviceRepository;
 
-    @Location("pub/base.html")
-    Template baseTemplate;
-
     @Location("services.html")
     Template servicesTemplate;
+
+//    @Location("services-form.html")
+//    Template servicesForm;
 
     @GET
     @Path("/services")
     public TemplateInstance getServices() {
-        return baseTemplate.data("title", "Services", "pageContent", servicesTemplate.data("services", serviceRepository.findAll().list()));
+        return servicesTemplate.data("services", serviceRepository.findAll().list());
     }
 
+//    @GET
+//    @Produces(MediaType.MULTIPART_FORM_DATA)
+//    @Path("/services/create")
+//    public TemplateInstance getServiceForm() {
+//        return servicesForm.instance();
+//    }
+
     @POST
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Transactional
     @Path("/services/create")
     public Response createService(@FormParam("name") String name, @FormParam("price") String price) {
