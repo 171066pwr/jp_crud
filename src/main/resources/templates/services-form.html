@@ -1,7 +1,17 @@
+{#include owner.html}
+	{#title}Add service{/title}
+	{#contents}
+
 <form action="/owner/services/create" method="post">
+	<label>ID</label>
+
 	<label>NAME</label>
 	<input type="text" placeholder="Ciach ciach" name="name" required size="32" maxlength="10">
 	<label>PRICE</label>
 	<input type="number" placeholder="10" name="price" inputmode="numeric" oninput="this.value = this.value.replace(/\D+/g, '')" required size="10" maxlength="10">
 	<button type="submit">DODAJ</button>
 </form>
+
+	{/contents}
+
+{/include}
