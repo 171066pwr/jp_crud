@@ -1,0 +1,28 @@
+meta {
+  name: update inline
+  type: http
+  seq: 9
+}
+
+put {
+  url: http://localhost:8080/owner/services/update?id=1451&name=5&price=108
+  body: formUrlEncoded
+  auth: inherit
+}
+
+params:query {
+  id: 1451
+  name: 5
+  price: 108
+}
+
+body:form-urlencoded {
+  id: 1451
+  name: EEEEEH
+  price: 12456
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

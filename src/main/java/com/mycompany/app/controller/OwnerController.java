@@ -14,6 +14,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import java.math.BigDecimal;
+import java.net.URI;
 import java.sql.Date;
 
 @Path("/owner")
@@ -30,21 +31,11 @@ public class OwnerController {
     @Location("services.html")
     Template servicesTemplate;
 
-//    @Location("services-form.html")
-//    Template servicesForm;
-
     @GET
     @Path("/services")
     public TemplateInstance getServices() {
         return servicesTemplate.data("services", serviceRepository.findAll().list());
     }
-
-//    @GET
-//    @Produces(MediaType.MULTIPART_FORM_DATA)
-//    @Path("/services/create")
-//    public TemplateInstance getServiceForm() {
-//        return servicesForm.instance();
-//    }
 
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -53,21 +44,38 @@ public class OwnerController {
     public Response createService(@FormParam("name") String name, @FormParam("price") String price) {
         var service = new Service(name, new BigDecimal(price));
         serviceRepository.persist(service);
-        return Response.noContent().build();
+        return Response.seeOther(URI.create("/owner/services"))
+                .build();
     }
 
-    @PUT
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Transactional
-    @Path("/services/{id}/update")
-    public Response updateService(@PathParam("id") Long id, Service service) {
+    @Path("/services/update")
+    public Response updateService(@FormParam("id") Long id, @FormParam("name") String name, @FormParam("price") BigDecimal price) {
         Service entity = serviceRepository.findById(id);
         if(entity == null) {
             throw new NotFoundException();
         }
-        entity.copyFrom(service);
+        entity.setName(name);
+        entity.setPrice(price);
         serviceRepository.persist(entity);
-        return Response.ok(entity).build();
+        return Response.seeOther(URI.create("/owner/services"))
+                .build();
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Transactional
+    @Path("/services/{id}/delete")
+    public Response deleteService(@PathParam("id") Long id) {
+        Service entity = serviceRepository.findById(id);
+        if(entity == null) {
+            throw new NotFoundException();
+        }
+        serviceRepository.delete(entity);
+        return Response.seeOther(URI.create("/owner/services"))
+                .build();
     }
 
     @GET

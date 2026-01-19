@@ -2,20 +2,42 @@
 	{#title}Services{/title}
 	{#contents}
 		<table>
-			<tr><td colspan="4">
-					{#include services-form.html}
-					{/include}
-				</td></tr>
-			<tr><th>ID</th><th>NAZWA</th><th>CENA</th></tr>
+			<tr>
+				<th class="theader">ID</th>
+				<th class="theader">NAZWA</th>
+				<th class="theader">CENA</th>
+				<th class="theader" colspan="2">AKCJE</th></tr>
 			{#for service in services}
 				<tr>
 					<td>{service.id}</td>
 					<td>{service.name}</td>
 					<td>{service.price}</td>
-					<td><a href="/owner/services/{service.id}">EDYTUJ</a></td>
+					<td style="width:0.1%; white-space:nowrap;">
+						<button type="button" class="btn" onclick='openForm("updateForm");changeUpdateValues("{service.id}","{service.name}","{service.price}")'>Edytuj</button>
+					</td>
+					<td style="width:0.1%; white-space:nowrap;">
+						<form action="/owner/services/{service.id}/delete" method="post">
+							<button class="btn" type="submit">USUŃ</button>
+						</form>
+					</td>
 				</tr>
 			{/for}
 		</table>
 	{/contents}
-
 {/include}
+
+<div class="form-popup" id="createForm" style="bottom:25%; left:15px">
+	{#include update-form.html update=false formName='createForm'/}
+</div>
+<button class="open-button" onclick='openForm("createForm")'>DODAJ</button>
+
+<div class="form-popup" id="updateForm">
+		{#include update-form.html update=true id=0 name="" price=0 formName='updateForm'/}
+	<script>
+		function changeUpdateValues(id, name, price) {
+			document.getElementById('updateForm').children[0].idInput.value = id;
+			document.getElementById('updateForm').children[0].nameInput.value = name;
+			document.getElementById('updateForm').children[0].priceInput.value = price;
+		}
+	</script>
+</div>

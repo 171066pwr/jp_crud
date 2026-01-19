@@ -1,0 +1,21 @@
+<form action="/owner/services/{#if update}update{#else}create{/if}" method="POST" class="bordered-form form-container">
+		<span style="display:{#if update}block{#else}none{/if}">
+			<label for="idInput">ID</label>
+			<input type="number" name="id" id="idInput" placeholder="0" readonly="readonly" size="32" maxlength="32">
+		</span>
+
+		<label for="nameInput">NAZWA</label>
+		<input type="text" name="name" id="nameInput" placeholder="nazwa" required size="32" maxlength="10" autofocus>
+		<label for="priceInput">CENA</label>
+		<input type="number" name="price" id="priceInput" placeholder="10" required inputmode="numeric"
+			   oninput="this.value = this.value.replace(/\D+/g, '')" required size="10" maxlength="10"
+			   {#if update}value="{price}"{/if}>
+	<button type="submit" class="btn" onsubmit=window.location.replace('/owner/services')>{#if update}AKTUALIZUJ{#else}UTWÓRZ{/if}</button>
+	<button type="button" class="btn cancel" onclick="closeForm{formName}();">Anuluj</button>
+</form>
+
+<script>
+	function closeForm{formName}() {
+		{formName}.style.display="none";
+	}
+</script>

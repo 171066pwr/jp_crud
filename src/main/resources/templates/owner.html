@@ -3,13 +3,14 @@
 {/include}
 
 <body>
-	<table>
-		<tr>
-			<th><a href="/owner/services">USŁUGI</a></th>
-			<th><a href="/owner/reservations">REZERWACJE</a></th>
-		</tr>
-	</table>
 	<br>
-	<div id="content"></div>
-	{#insert contents}{/}
+	<div class="menu">
+		<div class="menu-button"><a href="/owner/services">USŁUGI</a></div>
+		<div class="menu-button"><a href="/owner/reservations">REZERWACJE</a></div>
+	</div>
+	<br>
+	<div id="content">
+		{#insert contents}{/}
+	</div>
+
 </body>
