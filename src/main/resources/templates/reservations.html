@@ -1,0 +1,28 @@
+{#include owner.html}
+	{#title}Reservations{/title}
+	{#contents}
+		<table style="width:100%">
+			<tr>
+				<th class="theader">ID</th>
+				<th class="theader">DATA</th>
+				<th class="theader">GODZINA</th>
+				<th class="theader">USŁUGA</th>
+				<th class="theader">LOKAL</th>
+				<th class="theader">PRACOWNIK</th>
+				<th class="theader">KLIENT</th>
+				<th class="theader">OPŁACONO</th>
+			{#for reservation in reservations}
+				<tr>
+					<td>{reservation.id}</td>
+					<td>{reservation.date}</td>
+					<td>{reservation.time}</td>
+					<td>{reservation.service.name}</td>
+					<td>{reservation.location.name}</td>
+					<td>{reservation.employee.name}</td>
+					<td>{reservation.client.name}</td>
+					<td><input type="checkbox" disabled {#if reservation.billed}checked{/if}/> </td>
+				</tr>
+			{/for}
+		</table>
+	{/contents}
+{/include}

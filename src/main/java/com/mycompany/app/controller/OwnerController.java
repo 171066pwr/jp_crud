@@ -31,6 +31,9 @@ public class OwnerController {
     @Location("services.html")
     Template servicesTemplate;
 
+    @Location("reservations.html")
+    Template reservationsTemplate;
+
     @GET
     @Path("/services")
     public TemplateInstance getServices() {
@@ -80,10 +83,9 @@ public class OwnerController {
 
     @GET
     @Path("/reservations")
-    @Produces("application/json")
-    public Response getReservations(@DefaultValue("1970-01-01") @QueryParam("from") Date from,
+    public TemplateInstance getReservations(@DefaultValue("1970-01-01") @QueryParam("from") Date from,
                                              @DefaultValue("2100-01-01") @QueryParam ("to") Date to) {
-        return Response.ok(reservationRepository.findByDate(from, to)).build();
+        return reservationsTemplate.data("reservations", reservationRepository.findByDate(from, to));
     }
 
     @GET
