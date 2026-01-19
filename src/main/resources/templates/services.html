@@ -27,12 +27,12 @@
 {/include}
 
 <div class="form-popup" id="createForm" style="bottom:25%; left:15px">
-	{#include update-form.html update=false formName='createForm'/}
+	{#include service-form.html update=false formName='createForm'/}
 </div>
 <button class="open-button" onclick='openForm("createForm")'>DODAJ</button>
 
 <div class="form-popup" id="updateForm">
-		{#include update-form.html update=true id=0 name="" price=0 formName='updateForm'/}
+		{#include service-form.html update=true id=0 name="" price=0 formName='updateForm'/}
 	<script>
 		function changeUpdateValues(id, name, price) {
 			document.getElementById('updateForm').children[0].idInput.value = id;
